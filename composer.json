@@ -1,0 +1,24 @@
+{
+    "name": "schoenbeck/phprouter",
+    "type": "library",
+    "version": "0.0.1",
+    "description": "Router for php",
+    "license": "MIT",
+    "authors": [
+      {
+        "name": "Lukas Schönbeck",
+        "role": "Developer"
+      }
+    ],
+    "keywords": ["php","router","routing"],
+    "homepage": "https://github.com/Lukas220300/phpRouter",
+    "require-dev": {
+    },
+    "require": {
+    },
+    "autoload": {
+        "psr-4": {
+          "SCHOENBECK\\Router\\" : "src/"
+        }
+      }
+  }
