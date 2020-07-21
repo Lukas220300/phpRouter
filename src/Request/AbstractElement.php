@@ -3,9 +3,16 @@
 namespace SCHOENBECK\Router\Request;
 
 use Exception;
-
+/**
+ * @author Lukas Schoenbeck
+ */
 abstract class AbstractElement
 {
+    /**
+     * Assign the given SettingsArray as class variables with Key as variable name 
+     * and value as value to current class.
+     * @param array $settingsArray
+     */
     protected function assignSettings(array $settingsArray) {
 
         if(null === $settingsArray) {
@@ -18,7 +25,11 @@ abstract class AbstractElement
         }
     }
 
-    protected function toCamelCase($string)
+    /**
+     * Format the given string in CamelCase.
+     * @param string $string
+     */
+    protected function toCamelCase(string $string)
     {
         $result = strtolower($string);
         preg_match_all('/_[a-z]/', $result, $matches);
