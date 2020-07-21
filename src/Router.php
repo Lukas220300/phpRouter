@@ -6,7 +6,6 @@ class Router
 {
     protected $request;
     protected $pathToControllers;
-    protected $controllerSuffix = "Controller";
     protected $routes;
 
     /**
@@ -21,21 +20,20 @@ class Router
 
     /**
      * Add a new Route.
-     * The Controller name have to be without the suffix Controller.
-     * E.g.: 
-     * File name -> IndexController.php
-     * Class name -> IndexController
-     * controller name -> Index
+     * The controllerAndAction string has to be in a specific format:
      * 
-     * => Suffix = Controller
+     * <<controllerClassName>>::<<ActionMethodName>>
+     * 
+     * E.g.:
+     * IndexController::indexAction
      * 
      * @param string $route The Route
-     * @param string $controller The ControllerName without the Suffix.
+     * @param string $controllerAndAction The controller and the action method in it.
      */
-    public function addRoute(string $route, string $controller)
+    public function addRoute(string $route, string $controllerAndAction)
     {
         $formattedRoute = $this->formatRoute($route);
-        $this->routes[$formattedRoute] = $controller;
+        $this->routes[$formattedRoute] = $controllerAndAction;
     }
 
     /**
@@ -61,17 +59,14 @@ class Router
     public function resolveRoute()
     {
         $route = $this->formatRoute($this->request->getServer()->requestUri);
-        $controllerName = $this->routes[$route];
+        $controllerAndActionName = $this->routes[$route];
         
-        if(null === $controllerName) {
+        if(null === $controllerAndActionName) {
             http_response_code(404);
             return null;
         }
 
-        $controllerClassName = $controllerName . $this->controllerSuffix;
-        $controllerClass = new $controllerClassName();
-
-        return $controllerClass->render();
+        return call_user_func($controllerAndActionName);
     }
 
 }
