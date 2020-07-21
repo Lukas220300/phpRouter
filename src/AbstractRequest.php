@@ -2,6 +2,7 @@
 
 namespace SCHOENBECK\Router;
 
+/** */
 abstract class AbstractRequest
 {
     abstract public function getServer();
