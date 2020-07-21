@@ -1,6 +1,7 @@
 # PHP Router
 
 [![Latest Stable Version](https://poser.pugx.org/schoenbeck/phprouter/v/stable)](https://packagist.org/packages/schoenbeck/phprouter)
+[![License](https://poser.pugx.org/schoenbeck/phprouter/license)](//packagist.org/packages/schoenbeck/phprouter)
 
 <!--# Authors
 
