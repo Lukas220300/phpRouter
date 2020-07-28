@@ -43,6 +43,26 @@ $router->addRoute("/","IndexController::indexAction");
 
 echo $router->resolveRoute();
 ```
+### Load routers from a `yaml` file
+
+We can define in a `yaml` file all the routes of our application. This facilitates our life when we need to *migrate*, *modify*, or later *add* new routes.
+
+The route definition should follow the example below:
+
+```yaml
+base_path: /blog
+
+routes:
+  index: [/index, IndexController::indexAction]
+  contact: [/contact, ContactController::indexAction]
+  about: [/about, AboutController::indexAction]
+```
+
+Now we only have to add the routes file name:
+
+```php
+$router->addRoutesFromFile("routes.yml");
+```
 
 ## License
 
