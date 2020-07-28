@@ -46,29 +46,27 @@ class Router
     public function addRoutesFromFile(string $fileName)
     {
         if(!file_exists($fileName)) {
-            // TODO: Error handling
+            throw new Exception("File '" . $fileName . "' not exist.");
         }
+
         try{
             $fileRouts = Yaml::parseFile($fileName);
         }
         catch (Exception $e) {
-            // TODO: Error handling
-            print_r("#####FEHLER##### <br> yaml can't read <br>");
+            throw new Exception("Invalid YAML File.");
         }
 
         $basePath = "";
         if(isset($fileRouts['base_path'])) {
             $basePath = $fileRouts['base_path'];
         }
-
         if(!isset($fileRouts['routes'])) {
-            // TODO: False yaml config routs is missing
+            throw new Exception("No routes defined in YAML File.");
         }
 
         foreach($fileRouts['routes'] as $route) {
             $this->addRoute($route[0], $route[1]);
         }
-
     }
 
     /**
