@@ -2,6 +2,9 @@
 
 namespace SCHOENBECK\Router;
 
+use Exception;
+use Symfony\Component\Yaml\Yaml;
+
 class Router
 {
     protected $request;
@@ -38,6 +41,34 @@ class Router
     {
         $formattedRoute = $this->formatRoute($route);
         $this->routes[$formattedRoute] = $controllerAndAction;
+    }
+
+    public function addRoutesFromFile(string $fileName)
+    {
+        if(!file_exists($fileName)) {
+            // TODO: Error handling
+        }
+        try{
+            $fileRouts = Yaml::parseFile($fileName);
+        }
+        catch (Exception $e) {
+            // TODO: Error handling
+            print_r("#####FEHLER##### <br> yaml can't read <br>");
+        }
+
+        $basePath = "";
+        if(isset($fileRouts['base_path'])) {
+            $basePath = $fileRouts['base_path'];
+        }
+
+        if(!isset($fileRouts['routes'])) {
+            // TODO: False yaml config routs is missing
+        }
+
+        foreach($fileRouts['routes'] as $route) {
+            $this->addRoute($route[0], $route[1]);
+        }
+
     }
 
     /**
