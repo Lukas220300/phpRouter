@@ -10,11 +10,15 @@ class Router
 
     /**
      * @param AbstractRequest $request
+     * @param String $pathToControllers
      */
-    public function __construct(AbstractRequest $request) 
+    public function __construct(AbstractRequest $request, String $pathToControllers = "controller/") 
     {
         $this->request = $request;
-        $this->pathToControllers = "controller/"; //TODO: get out of Globals settings
+        $this->pathToControllers = $pathToControllers;
+        if(isset($GLOBALS['SWS']['PHP_ROUTER']['CONTROLLER_PATH'])) {
+            $this->pathToControllers = $GLOBALS['SWS']['PHP_ROUTER']['CONTROLLER_PATH'];
+        }
         $this->routes = array();
     }
 
