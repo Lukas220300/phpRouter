@@ -2,6 +2,9 @@
 
 namespace SCHOENBECK\Router;
 
+use Exception;
+use Symfony\Component\Yaml\Yaml;
+
 class Router
 {
     protected $request;
@@ -10,11 +13,15 @@ class Router
 
     /**
      * @param AbstractRequest $request
+     * @param String $pathToControllers
      */
-    public function __construct(AbstractRequest $request) 
+    public function __construct(AbstractRequest $request, String $pathToControllers = "controller/") 
     {
         $this->request = $request;
-        $this->pathToControllers = "controller/"; //TODO: get out of Globals settings
+        $this->pathToControllers = $pathToControllers;
+        if(isset($GLOBALS['SWS']['PHP_ROUTER']['CONTROLLER_PATH'])) {
+            $this->pathToControllers = $GLOBALS['SWS']['PHP_ROUTER']['CONTROLLER_PATH'];
+        }
         $this->routes = array();
     }
 
@@ -34,6 +41,38 @@ class Router
     {
         $formattedRoute = $this->formatRoute($route);
         $this->routes[$formattedRoute] = $controllerAndAction;
+    }
+
+    /**
+     * Add routes via YAML config file.
+     * Lock at the README to see how to define routes in a YAML config file.
+     * 
+     * @param string $fileName
+     */
+    public function addRoutesFromFile(string $fileName)
+    {
+        if(!file_exists($fileName)) {
+            throw new Exception("File '" . $fileName . "' not exist.");
+        }
+
+        try{
+            $fileRouts = Yaml::parseFile($fileName);
+        }
+        catch (Exception $e) {
+            throw new Exception("Invalid YAML File.");
+        }
+
+        $basePath = "";
+        if(isset($fileRouts['base_path'])) {
+            $basePath = $fileRouts['base_path'];
+        }
+        if(!isset($fileRouts['routes'])) {
+            throw new Exception("No routes defined in YAML File.");
+        }
+
+        foreach($fileRouts['routes'] as $route) {
+            $this->addRoute($basePath . $route[0], $route[1]);
+        }
     }
 
     /**
