@@ -65,7 +65,7 @@ class Router
         }
 
         foreach($fileRouts['routes'] as $route) {
-            $this->addRoute($route[0], $route[1]);
+            $this->addRoute($basePath . $route[0], $route[1]);
         }
     }
 
