@@ -1,7 +1,7 @@
 {
     "name": "schoenbeck/phprouter",
     "type": "library",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "description": "Router for php",
     "license": "MIT",
     "authors": [
