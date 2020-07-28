@@ -43,6 +43,12 @@ class Router
         $this->routes[$formattedRoute] = $controllerAndAction;
     }
 
+    /**
+     * Add routes via YAML config file.
+     * Lock at the README to see how to define routes in a YAML config file.
+     * 
+     * @param string $fileName
+     */
     public function addRoutesFromFile(string $fileName)
     {
         if(!file_exists($fileName)) {
