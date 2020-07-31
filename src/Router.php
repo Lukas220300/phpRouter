@@ -98,7 +98,8 @@ class Router
     public function resolveRoute()
     {
         $route = $this->formatRoute($this->request->getServer()->requestUri);
-        $controllerAndActionName = $this->routes[$route];
+        $baseRoute = explode('?',$route);
+        $controllerAndActionName = $this->routes[$baseRoute[0]];
         
         if(null === $controllerAndActionName) {
             http_response_code(404);
